@@ -1,35 +1,41 @@
-# Neon Syndicate & Vault Protocols
+# 5xFaction Smart Contracts
 
-This repository contains a collection of smart contracts implementing a gamified DeFi protocol (`NeonSyndicate`) and a standard yield vault (`Vault`), built using the Foundry framework.
+This repository contains a collection of smart contracts for gamified DeF protocols and vaults, built using the Foundry framework.
 
 ## Contracts Overview
 
-### 1. NeonSyndicate (Gamified DeFi)
+### 1. Kali-Yuga: The Last Ink 🎨⚔️ (NEW - Mythology-Futuristic Theme)
 
-**NeonSyndicate** is a unique "no-loss" gamified yield protocol where 5 factions compete for rewards based on Total Value Locked (TVL) relationships.
+> *The world has reached the end of times (Kali Yuga) where light has vanished. Only the "Eternal Ink" remains as the source of power. Five clans fight to claim the remnants of existence in an arena called "The White Canvas".*
 
-**Factions:**
-*   **BRUTE**
-*   **SNIPER**
-*   **HACKER**
-*   **SWARM**
-*   **STEALTH**
+**Kali-Yuga** is a unique \"no-loss\" gamified yield protocol where 5 clans compete for the Eternal Ink based on Total Value Locked (TVL) relationships.
+
+**Visual Style**: Heavy ink aesthetic inspired by manga like Vagabond
+
+**The Five Clans:**
+* 🌑 **SHADOW** (影 Kage) - Assassins who merge with shadows
+* ⚔️ **BLADE** (剣 Ken) - Samurai with giant swords that cut anything
+* 👻 **SPIRIT** (霊 Rei) - Invisible entities that attack the mind
+* 🗿 **PILLAR** (柱 Hashira) - Absolute defense with extraordinary physical power
+* 🌪️ **WIND** (風 Kaze) - Archers who attack from invisible distances
 
 **Game Mechanics:**
-*   **Pentagon Cycle**: Each faction has 2 **Targets** (factions they beat) and 2 **Predators** (factions that beat them).
-*   **Scoring**: `Score = (Target1 TVL + Target2 TVL) - (Predator1 TVL + Predator2 TVL)`
-*   **Winning**: The faction with the highest score at the end of an epoch wins the total generated yield.
-*   **Yield**: Rewards are distributed proportionally to depositors in the winning faction.
-*   **No-Loss**: Losing factions keep their principal deposits and can try again in the next epoch.
+* **Pentagon Cycle**: Each clan has 2 **Targets** (clans they beat) and 2 **Predators** (clans that beat them)
+* **Scoring**: `Score = (Target1 TVL + Target2 TVL) - (Predator1 TVL + Predator2 TVL)`
+* **Winning**: The clan with the highest score wins all the Eternal Ink for that epoch
+* **Rewards**: Eternal Ink is distributed proportionally to warriors in the winning clan
+* **No-Loss**: Losing clans keep their principal and can fight again in the next epoch
 
-**Relationships:**
-| Faction | Beats (Targets) | Loses To (Predators) |
-| :--- | :--- | :--- |
-| **BRUTE** | SNIPER, HACKER | SWARM, STEALTH |
-| **SNIPER** | SWARM, HACKER | BRUTE, STEALTH |
-| **HACKER** | SWARM, STEALTH | BRUTE, SNIPER |
-| **SWARM** | BRUTE, STEALTH | HACKER, SNIPER |
-| **STEALTH** | SNIPER, BRUTE | HACKER, SWARM |
+**Clan Relationships (Pentagon Cycle):**
+| Clan | Beats (Targets) | Loses To (Predators) | Lore |
+| :--- | :--- | :--- | :--- |
+| **SHADOW** | SPIRIT, WIND | BLADE, PILLAR | Shadow traps spirits and approaches archers, but can't escape sharp blades or hard bodies |
+| **BLADE** | SHADOW, PILLAR | SPIRIT, WIND | Sharp sword cuts shadows and pierces armor, but can't slash spirits or dodge distant arrows |
+| **SPIRIT** | BLADE, PILLAR | WIND, SHADOW | Spirits can't be cut and penetrate defense, but wind disperses them and shadows trap them |
+| **PILLAR** | WIND, SHADOW | BLADE, SPIRIT | Hard body immune to arrows and traps shadows, but sharp blades pierce and spirits penetrate |
+| **WIND** | SPIRIT, BLADE | PILLAR, SHADOW | Wind disperses spirits and attacks from afar, but useless against hard bodies and outmaneuvered by shadows |
+
+**Contract**: `KaliYuga.sol` | **Test**: `KaliYuga.t.sol` (15 tests, all passing ✅)
 
 ### 2. Vault (Simple Yield)
 
@@ -39,7 +45,7 @@ This repository contains a collection of smart contracts implementing a gamified
 *   **Rate**: 1% per day (100 basis points).
 *   **Rewards**: Rewards are minted (mock logic) upon withdrawal or claiming.
 
-### 3. MockUSDC
+### 2. MockUSDC
 
 **MockUSDC** is a production-ready mock USDC token built with OpenZeppelin standards for testing and development.
 
@@ -75,7 +81,7 @@ function permit(address owner, address spender, uint256 value, uint256 deadline,
 - ✅ **Integration tested** with SimpleVault contract
 - ✅ **Full coverage** of edge cases and error scenarios
 
-### 4. SimpleVault
+### 3. SimpleVault
 
 **SimpleVault** is a demonstration contract showing real-world integration with MockUSDC.
 
