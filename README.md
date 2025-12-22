@@ -37,6 +37,19 @@ This repository contains a collection of smart contracts for gamified DeF protoc
 
 **Contract**: `KaliYuga.sol` | **Test**: `KaliYuga.t.sol` (15 tests, all passing ✅)
 
+#### 🚀 Deployed on Arbitrum Sepolia
+
+| Contract | Address | Explorer |
+|----------|---------|----------|
+| **Kali-Yuga** | `0xab434F974E83aDd2223FDc876f93FE27AB6F37F2` | [View on Arbiscan](https://sepolia.arbiscan.io/address/0xab434F974E83aDd2223FDc876f93FE27AB6F37F2) |
+| **MockUSDC (Eternal Ink)** | `0x27BC2C9B9980f6F2994C604730712472F2D864DF` | [View on Arbiscan](https://sepolia.arbiscan.io/address/0x27BC2C9B9980f6F2994C604730712472F2D864DF) |
+| **SimpleVault** | `0x9BDf74A54f0c0455a83703a4511BBE686AD071d9` | [View on Arbiscan](https://sepolia.arbiscan.io/address/0x9BDf74A54f0c0455a83703a4511BBE686AD071d9) |
+
+**Network**: Arbitrum Sepolia (Chain ID: 421614)  
+**RPC URL**: https://sepolia-rollup.arbitrum.io/rpc
+
+---
+
 ### 2. Vault (Simple Yield)
 
 **Vault** is a straightforward staking contract.
