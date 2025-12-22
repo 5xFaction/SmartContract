@@ -1,52 +1,52 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-contract MockUSDC {
-    string public constant name = "Mock USDC";
-    string public constant symbol = "MUSDC";
-    uint8 public constant decimals = 6;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
-    uint256 public totalSupply;
-    mapping(address => uint256) public balanceOf;
-    mapping(address => mapping(address => uint256)) public allowance;
+/**
+ * @title MockUSDC
+ * @dev Mock USDC token for testing purposes
+ * Features:
+ * - 6 decimals (like real USDC)
+ * - Permissionless minting (anyone can mint)
+ * - Burnable (burn your own tokens or approved tokens)
+ * - Permit support (EIP-2612) for gasless approvals
+ */
+contract MockUSDC is ERC20, ERC20Permit, ERC20Burnable {
+    event Minted(address indexed to, uint256 amount, address indexed minter);
 
-    event Transfer(address indexed from, address indexed to, uint256 value);
-    event Approval(address indexed owner, address indexed spender, uint256 value);
+    constructor() ERC20("Mock USDC", "MUSDC") ERC20Permit("Mock USDC") {}
 
+    /**
+     * @dev Returns 6 decimals to match real USDC
+     */
+    function decimals() public pure override returns (uint8) {
+        return 6;
+    }
+
+    /**
+     * @dev Mint tokens to any address. Anyone can call this function.
+     * @param to Address to mint tokens to
+     * @param amount Amount of tokens to mint (with 6 decimals)
+     */
     function mint(address to, uint256 amount) external {
-        totalSupply += amount;
-        balanceOf[to] += amount;
-        emit Transfer(address(0), to, amount);
+        _mint(to, amount);
+        emit Minted(to, amount, msg.sender);
     }
 
-    function burn(uint256 amount) external {
-        require(balanceOf[msg.sender] >= amount, "Insufficient balance");
-        balanceOf[msg.sender] -= amount;
-        totalSupply -= amount;
-        emit Transfer(msg.sender, address(0), amount);
-    }
-
-    function transfer(address to, uint256 amount) external returns (bool) {
-        require(balanceOf[msg.sender] >= amount, "Insufficient balance");
-        balanceOf[msg.sender] -= amount;
-        balanceOf[to] += amount;
-        emit Transfer(msg.sender, to, amount);
-        return true;
-    }
-
-    function approve(address spender, uint256 amount) external returns (bool) {
-        allowance[msg.sender][spender] = amount;
-        emit Approval(msg.sender, spender, amount);
-        return true;
-    }
-
-    function transferFrom(address from, address to, uint256 amount) external returns (bool) {
-        require(balanceOf[from] >= amount, "Insufficient balance");
-        require(allowance[from][msg.sender] >= amount, "Insufficient allowance");
-        allowance[from][msg.sender] -= amount;
-        balanceOf[from] -= amount;
-        balanceOf[to] += amount;
-        emit Transfer(from, to, amount);
-        return true;
+    /**
+     * @dev Batch mint to multiple addresses
+     * @param recipients Array of addresses to mint to
+     * @param amounts Array of amounts to mint
+     */
+    function batchMint(address[] calldata recipients, uint256[] calldata amounts) external {
+        require(recipients.length == amounts.length, "Length mismatch");
+        
+        for (uint256 i = 0; i < recipients.length; i++) {
+            _mint(recipients[i], amounts[i]);
+            emit Minted(recipients[i], amounts[i], msg.sender);
+        }
     }
 }

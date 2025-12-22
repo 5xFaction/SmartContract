@@ -41,7 +41,50 @@ This repository contains a collection of smart contracts implementing a gamified
 
 ### 3. MockUSDC
 
-A standard ERC20 token (`MUSDC`) used for testing and development purposes within the ecosystem. It allows for free minting to simulate user deposits.
+**MockUSDC** is a production-ready mock USDC token built with OpenZeppelin standards for testing and development.
+
+**Features:**
+- ✅ **6 Decimals**: Matches real USDC precision
+- ✅ **Permissionless Minting**: Anyone can mint tokens (perfect for testing)
+- ✅ **ERC20Burnable**: Supports both `burn()` and `burnFrom()`
+- ✅ **EIP-2612 Permit**: Gasless approvals using signatures
+- ✅ **Batch Minting**: Mint to multiple addresses in one transaction
+- ✅ **Event Emissions**: Full event tracking for all operations
+
+**Key Functions:**
+```solidity
+// Mint tokens to any address
+function mint(address to, uint256 amount) external
+
+// Batch mint to multiple addresses
+function batchMint(address[] calldata recipients, uint256[] calldata amounts) external
+
+// Burn your own tokens
+function burn(uint256 amount) external
+
+// Burn approved tokens
+function burnFrom(address account, uint256 amount) external
+
+// Gasless approval via signature (EIP-2612)
+function permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external
+```
+
+**Testing:**
+- ✅ **27 comprehensive tests** - all passing
+- ✅ **4 fuzz test suites** - 256 runs each
+- ✅ **Integration tested** with SimpleVault contract
+- ✅ **Full coverage** of edge cases and error scenarios
+
+### 4. SimpleVault
+
+**SimpleVault** is a demonstration contract showing real-world integration with MockUSDC.
+
+**Features:**
+- Deposit USDC tokens
+- Withdraw USDC tokens
+- Track individual user balances
+- Uses SafeERC20 for secure transfers
+
 
 ## Getting Started
 
@@ -76,8 +119,19 @@ forge build
 Run the test suite to verify contract logic:
 
 ```bash
+# Run all tests
 forge test
+
+# Run MockUSDC tests specifically with verbose output
+forge test --match-contract MockUSDCTest -vvv
+
+# Run with gas reporting
+forge test --match-contract MockUSDCTest --gas-report
+
+# Run fuzz tests with more iterations
+forge test --match-contract MockUSDCTest --fuzz-runs 1000
 ```
+
 
 ## Deployment
 
