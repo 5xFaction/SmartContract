@@ -1,171 +1,69 @@
-# 5xFaction Smart Contracts
-
-This repository contains a collection of smart contracts for gamified DeF protocols and vaults, built using the Foundry framework.
+# FiveFaction Smart Contracts
 
 ## Contracts Overview
 
-### 1. Kali-Yuga: The Last Ink 🎨⚔️ (NEW - Mythology-Futuristic Theme)
+| Contract Name | Address | Description                                                           |
+| ------------- | ------- | --------------------------------------------------------------------- |
+| FiveFaction   | `TBD`   | Core game logic, epoch management, and staking system.                |
+| MockUSDC      | `TBD`   | ERC20 Stablecoin used for staking and rewards.                        |
+| MockDeFi      | `TBD`   | Yield generator simulating external DeFi protocol (Zero-Loss source). |
 
-> *The world has reached the end of times (Kali Yuga) where light has vanished. Only the "Eternal Ink" remains as the source of power. Five clans fight to claim the remnants of existence in an arena called "The White Canvas".*
+## Core Functions Scope
 
-**Kali-Yuga** is a unique \"no-loss\" gamified yield protocol where 5 clans compete for the Eternal Ink based on Total Value Locked (TVL) relationships.
+### FiveFaction.sol
 
-**Visual Style**: Heavy ink aesthetic inspired by manga like Vagabond
+| Function Name                   | Visibility | Description                                                                                                           |
+| ------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------- |
+| `joinClan(Clan clan)`           | External   | Binds user to a Clan. Requires active Deposit Phase. resetting clan is allowed if stake is 0.                         |
+| `stakeInk(uint128 amount)`      | External   | Deposits tokens into the game. Auto-claims pending rewards first. Locks funds in DeFi protocol.                       |
+| `withdrawInk(uint128 amount)`   | External   | Withdraws tokens principal. Auto-claims pending rewards first. Only allowed during Deposit Phase.                     |
+| `processRewards(uint256 limit)` | External   | Manually processes pending rewards for users with long inactivity history (batch processing).                         |
+| `clearCanvas()`                 | External   | Finalizes the current epoch. Calculates winner based on Prey/Predator logic, distributes yield, and rolls over epoch. |
+| `getWarriorInfo(address)`       | View       | Returns user's current stake, clan, joined epoch, and current potential score.                                        |
+| `getAllClanTVLs()`              | View       | Returns total value locked for all 5 clans.                                                                           |
 
-**The Five Clans:**
-* 🌑 **SHADOW** (影 Kage) - Assassins who merge with shadows
-* ⚔️ **BLADE** (剣 Ken) - Samurai with giant swords that cut anything
-* 👻 **SPIRIT** (霊 Rei) - Invisible entities that attack the mind
-* 🗿 **PILLAR** (柱 Hashira) - Absolute defense with extraordinary physical power
-* 🌪️ **WIND** (風 Kaze) - Archers who attack from invisible distances
-
-**Game Mechanics:**
-* **Pentagon Cycle**: Each clan has 2 **Targets** (clans they beat) and 2 **Predators** (clans that beat them)
-* **Scoring**: `Score = (Target1 TVL + Target2 TVL) - (Predator1 TVL + Predator2 TVL)`
-* **Winning**: The clan with the highest score wins all the Eternal Ink for that epoch
-* **Rewards**: Eternal Ink is distributed proportionally to warriors in the winning clan
-* **No-Loss**: Losing clans keep their principal and can fight again in the next epoch
-
-**Clan Relationships (Pentagon Cycle):**
-| Clan | Beats (Targets) | Loses To (Predators) | Lore |
-| :--- | :--- | :--- | :--- |
-| **SHADOW** | SPIRIT, WIND | BLADE, PILLAR | Shadow traps spirits and approaches archers, but can't escape sharp blades or hard bodies |
-| **BLADE** | SHADOW, PILLAR | SPIRIT, WIND | Sharp sword cuts shadows and pierces armor, but can't slash spirits or dodge distant arrows |
-| **SPIRIT** | BLADE, PILLAR | WIND, SHADOW | Spirits can't be cut and penetrate defense, but wind disperses them and shadows trap them |
-| **PILLAR** | WIND, SHADOW | BLADE, SPIRIT | Hard body immune to arrows and traps shadows, but sharp blades pierce and spirits penetrate |
-| **WIND** | SPIRIT, BLADE | PILLAR, SHADOW | Wind disperses spirits and attacks from afar, but useless against hard bodies and outmaneuvered by shadows |
-
-**Contract**: `KaliYuga.sol` | **Test**: `KaliYuga.t.sol` (15 tests, all passing ✅)
-
-#### 🚀 Deployed on Arbitrum Sepolia
-
-| Contract | Address | Explorer |
-|----------|---------|----------|
-| **Kali-Yuga** | `0xab434F974E83aDd2223FDc876f93FE27AB6F37F2` | [View on Arbiscan](https://sepolia.arbiscan.io/address/0xab434F974E83aDd2223FDc876f93FE27AB6F37F2) |
-| **MockUSDC (Eternal Ink)** | `0x27BC2C9B9980f6F2994C604730712472F2D864DF` | [View on Arbiscan](https://sepolia.arbiscan.io/address/0x27BC2C9B9980f6F2994C604730712472F2D864DF) |
-| **SimpleVault** | `0x9BDf74A54f0c0455a83703a4511BBE686AD071d9` | [View on Arbiscan](https://sepolia.arbiscan.io/address/0x9BDf74A54f0c0455a83703a4511BBE686AD071d9) |
-
-**Network**: Arbitrum Sepolia (Chain ID: 421614)  
-**RPC URL**: https://sepolia-rollup.arbitrum.io/rpc
-
----
-
-### 2. Vault (Simple Yield)
-
-**Vault** is a straightforward staking contract.
-
-*   **Logic**: Users deposit tokens and earn a fixed daily yield.
-*   **Rate**: 1% per day (100 basis points).
-*   **Rewards**: Rewards are minted (mock logic) upon withdrawal or claiming.
-
-### 2. MockUSDC
-
-**MockUSDC** is a production-ready mock USDC token built with OpenZeppelin standards for testing and development.
-
-**Features:**
-- ✅ **6 Decimals**: Matches real USDC precision
-- ✅ **Permissionless Minting**: Anyone can mint tokens (perfect for testing)
-- ✅ **ERC20Burnable**: Supports both `burn()` and `burnFrom()`
-- ✅ **EIP-2612 Permit**: Gasless approvals using signatures
-- ✅ **Batch Minting**: Mint to multiple addresses in one transaction
-- ✅ **Event Emissions**: Full event tracking for all operations
-
-**Key Functions:**
-```solidity
-// Mint tokens to any address
-function mint(address to, uint256 amount) external
-
-// Batch mint to multiple addresses
-function batchMint(address[] calldata recipients, uint256[] calldata amounts) external
-
-// Burn your own tokens
-function burn(uint256 amount) external
-
-// Burn approved tokens
-function burnFrom(address account, uint256 amount) external
-
-// Gasless approval via signature (EIP-2612)
-function permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external
-```
-
-**Testing:**
-- ✅ **27 comprehensive tests** - all passing
-- ✅ **4 fuzz test suites** - 256 runs each
-- ✅ **Integration tested** with SimpleVault contract
-- ✅ **Full coverage** of edge cases and error scenarios
-
-### 3. SimpleVault
-
-**SimpleVault** is a demonstration contract showing real-world integration with MockUSDC.
-
-**Features:**
-- Deposit USDC tokens
-- Withdraw USDC tokens
-- Track individual user balances
-- Uses SafeERC20 for secure transfers
-
-
-## Getting Started
+## Deployment Guide
 
 ### Prerequisites
 
-*   **Foundry**: You need to have Foundry installed.
-    ```bash
-    curl -L https://foundry.paradigm.xyz | bash
-    foundryup
-    ```
+- Foundry (forge) installed
+- Ethereum Wallet Private Key
+- RPC URL (Base Sepolia / Optimism Goerli recommended)
 
-### Installation
+### 1. Environment Setup
 
-Clone the repository and install dependencies:
+Create a `.env` file in the root directory:
 
 ```bash
-git clone <repo-url>
-cd SmartContract
-forge install
+PRIVATE_KEY=your_private_key_here
+RPC_URL=your_rpc_url_here
+ETHERSCAN_API_KEY=your_etherscan_key_here
 ```
 
-### Build
-
-Compile the contracts:
+### 2. Build Contracts
 
 ```bash
 forge build
 ```
 
-### Testing
+### 3. Run Tests
 
-Run the test suite to verify contract logic:
+Ensure all logic invariants pass before deployment.
 
 ```bash
-# Run all tests
 forge test
-
-# Run MockUSDC tests specifically with verbose output
-forge test --match-contract MockUSDCTest -vvv
-
-# Run with gas reporting
-forge test --match-contract MockUSDCTest --gas-report
-
-# Run fuzz tests with more iterations
-forge test --match-contract MockUSDCTest --fuzz-runs 1000
 ```
 
+### 4. Deploy to Network
 
-## Deployment
+Run the deployment script which handles MockUSDC, MockDeFi, and FiveFaction linking.
 
-Deployment scripts are located in the `script/` directory.
-
-To deploy the **Vault**:
 ```bash
-forge script script/Vault.s.sol:VaultScript --rpc-url <your_rpc_url> --private-key <your_private_key> --broadcast
+forge script script/FiveFaction.s.sol:FiveFactionScript --rpc-url $RPC_URL --broadcast --verify
 ```
 
-To deploy **MockUSDC**:
-```bash
-forge script script/MockUSDC.s.sol:MockUSDCScript --rpc-url <your_rpc_url> --private-key <your_private_key> --broadcast
-```
+### Security Invariants (Audit Note)
 
-## License
-
-UNLICENSED
+1. **Historical Integrity:** Users cannot change their stake without first settling all pending rewards from previous epochs (Auto-Claim enforced).
+2. **Epoch Locking:** Principal withdrawals and Clan switching are strictly prohibited outside the Deposit Phase (first 2 days of Epoch).
+3. **Gas Safety:** Reward processing iterates only over unclaimed epochs and enforces a loop limit to prevent Denial of Service.
