@@ -1,12 +1,12 @@
 # FiveFaction Smart Contracts
 
-## Contracts Overview
+## Contracts Overview (Arbitrum Sepolia Testnet)
 
-| Contract Name | Address | Description                                                           |
-| ------------- | ------- | --------------------------------------------------------------------- |
-| FiveFaction   | `TBD`   | Core game logic, epoch management, and staking system.                |
-| MockUSDC      | `TBD`   | ERC20 Stablecoin used for staking and rewards.                        |
-| MockDeFi      | `TBD`   | Yield generator simulating external DeFi protocol (Zero-Loss source). |
+| Contract Name | Address                                      | Description                                                           |
+| ------------- | -------------------------------------------- | --------------------------------------------------------------------- |
+| FiveFaction   | `0xC51601dde25775bA2740EE14D633FA54e12Ef6C7` | Core game logic, epoch management, and staking system.                |
+| MockUSDC      | `0x787c8616d9b8Ccdca3B2b930183813828291dA9c` | ERC20 Stablecoin used for staking and rewards.                        |
+| MockDeFi      | `0x5644F393a2480BE5E63731C30fCa81F9e80277a7` | Yield generator simulating external DeFi protocol (Zero-Loss source). |
 
 ## Core Functions Scope
 
@@ -28,7 +28,7 @@
 
 - Foundry (forge) installed
 - Ethereum Wallet Private Key
-- RPC URL (Base Sepolia / Optimism Goerli recommended)
+- RPC URL (Arbitrum Sepolia recommended)
 
 ### 1. Environment Setup
 
@@ -36,8 +36,8 @@ Create a `.env` file in the root directory:
 
 ```bash
 PRIVATE_KEY=your_private_key_here
-RPC_URL=your_rpc_url_here
-ETHERSCAN_API_KEY=your_etherscan_key_here
+RPC_URL=https://sepolia-rollup.arbitrum.io/rpc
+ETHERSCAN_API_KEY=your_arbiscan_key_here
 ```
 
 ### 2. Build Contracts
