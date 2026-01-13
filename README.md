@@ -59,7 +59,11 @@ forge test
 Run the deployment script which handles MockUSDC, MockDeFi, and FiveFaction linking.
 
 ```bash
-forge script script/FiveFaction.s.sol:FiveFactionScript --rpc-url $RPC_URL --broadcast --verify
+source .env
+```
+
+```bash
+forge script script/FiveFaction.s.sol:FiveFactionScript --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast --verify --etherscan-api-key $ETHERSCAN_API_KEY
 ```
 
 ### Security Invariants (Audit Note)
