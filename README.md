@@ -1,5 +1,19 @@
 # FiveFaction Smart Contracts
 
+Smart contracts for **5xFaction Protocol** — a no-loss DeFi protocol on Arbitrum where five factions battle for yield dominance using game theory.
+
+## Links
+
+| Resource      | URL                                                                                   |
+| ------------- | ------------------------------------------------------------------------------------- |
+| Live App      | https://5xfaction.vercel.app                                                          |
+| Documentation | https://yeheskieltame.gitbook.io/5xfaction/                                           |
+| Pitch Deck    | [View on Canva](https://www.canva.com/design/DAG-Z49Sqro/SwPyZzCY8dlz4XQo2e4xhg/view) |
+| Demo Video    | https://youtu.be/mqhWj-ZsDBc                                                          |
+| GitHub        | https://github.com/5xFaction                                                          |
+
+---
+
 ## Contracts Overview (Arbitrum Sepolia Testnet)
 
 | Contract Name | Address                                      | Description                                                           |
